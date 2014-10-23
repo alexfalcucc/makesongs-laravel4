@@ -1,5 +1,9 @@
 <?php
 
+use Illuminate\Http\Request;
+
+use App\Song;
+
 class SongsController extends \BaseController {
 
 	/**
@@ -50,9 +54,10 @@ class SongsController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function show($slug)
 	{
-		//
+		$song = DB::table('songs')->whereSlug($slug)->first();
+		return View::make('songs.show')->with('song', $song);
 	}
 
 
@@ -62,9 +67,10 @@ class SongsController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
+	public function edit($slug)
 	{
-		//
+		$song = DB::table('songs')->whereSlug($slug)->first();
+		return View::make('songs.edit')->with('song', $song);
 	}
 
 
@@ -74,9 +80,16 @@ class SongsController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update($slug)
 	{
-		//
+
+		// $song = DB::table('songs')->whereSlug($slug)->first();
+		// $new_song_data=array($song->title => Input::get('title'));
+		// $song->fill($new_song_data)->save();
+		$song = DB::table('songs')->whereSlug($slug)->first();
+		// $get_title = \Request::input('title');
+		// $song->fill([\Request::input()])->save();
+		return Redirect::to('songs');
 	}
 
 

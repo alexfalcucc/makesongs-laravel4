@@ -10,7 +10,7 @@
 			@if($song->lyrics)
 
 			<article class="lyrics">
-				{!! nl2br($song->lyrics) !!}
+				{{ nl2br($song->lyrics) }}
 			</article>
 			@endif
 			<br>
