@@ -11,7 +11,15 @@
 |
 */
 
-Route::get('/', function()
-{
-	return View::make('hello');
-});
+// Route::get('/', function()
+// {
+// 	return View::make('hello');
+// });
+
+Route::get('login', 'LoginController@index');
+
+Route::get('/', 'PagesController@index');
+
+Route::get('songs', 'SongsController@index');
+
+Route::get('songs/{slug}', 'SongsController@show');
