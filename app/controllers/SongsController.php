@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 
 use App\Song;
 
+use App\Requests\CreateSongRequest;
+
 class SongsController extends \BaseController {
 
 	/**
@@ -42,11 +44,6 @@ class SongsController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function store()
-	{
-		//
-	}
-
 
 	/**
 	 * Display the specified resource.
@@ -86,8 +83,13 @@ class SongsController extends \BaseController {
 		// $song = DB::table('songs')->whereSlug($slug)->first();
 		// $new_song_data=array($song->title => Input::get('title'));
 		// $song->fill($new_song_data)->save();
-		$song = DB::table('songs')->whereSlug($slug)->first();
-		// $get_title = \Request::input('title');
+		$get_title = \Request::input('title');
+		$get_author = \Request::input('author');
+		$get_slug = \Request::input('slug');
+		$get_lyrics = \Request::input('lyrics');
+		$song = DB::table('songs')->whereSlug($slug)->update(array(
+			'title' => $get_title, 'author' => $get_author, 
+			'slug' => $get_slug, 'lyrics' => $get_lyrics));
 		// $song->fill([\Request::input()])->save();
 		return Redirect::to('songs');
 	}
@@ -99,9 +101,32 @@ class SongsController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
+	public function destroy($slug)
 	{
-		//
+		$song = DB::table('songs')->whereSlug($slug);
+		$song->delete();
+		return Redirect::to('songs');
+	}
+
+	public function showCreate() {
+		return View::make('songs.create');
+	}
+
+	public function store() {
+		$validation = Validator::make(Input::all(), ['title' => 'required', 'slug' => 'required']);
+
+		if ($validation->fails()) {
+			return Redirect::back()->withInput()->withErrors($validation->messages());
+		}
+
+		$new_song = DB::table('songs')->insert(
+			array(
+				'author' => Input::get('author'),
+				'title' => Input::get('title'),
+				'lyrics' => Input::get('lyrics'),
+				'slug' => Input::get('slug')
+				));
+		return Redirect::to('songs');
 	}
 
 

@@ -1,7 +1,6 @@
 <?php
 
-class Song extends \Eloquent {
-	protected $fillable = [
-		'title', 'lyrics', 'slug'
-	];
+class Song extends Eloquent {
+
+	protected $guarded = array('title', 'lyrics', 'slug');
 }

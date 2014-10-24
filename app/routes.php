@@ -23,3 +23,9 @@ Route::get('songs/{slug}', 'SongsController@show');
 Route::get('songs/{slug}/edit', 'SongsController@edit');
 
 Route::patch('songs/{slug}/update', 'SongsController@update');
+
+Route::delete('songs/{slug}/delete', 'SongsController@destroy');
+
+Route::get('song/new', 'SongsController@showCreate');
+
+Route::post('songs/create', 'SongsController@store');
